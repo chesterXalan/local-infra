@@ -1,0 +1,57 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+# pre-commit install        啟用預設的 git hook
+# pre-commit autoupdate     更新此檔案內使用的 repo 的版本
+
+# pre-commit run --all-files 全檔案檢查，而不是只有被提交的檔案
+# pre-commit run <hook_id> --all-files 只檢查特定一個 hook 是否通過
+
+# SKIP=check-added-large-files git commit -m "提交訊息"    暫時跳過特定 hook
+# git commit --no-verify 或者 git commit -n               跳過所有 commit hook
+
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+        args: [--maxkb=4096]
+      - id: check-case-conflict
+      - id: check-yaml
+      - id: check-toml
+
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.15.0
+    hooks:
+      - id: pretty-format-yaml
+        args:
+          - --autofix
+          - --indent=2
+          - --offset=2
+
+  - repo: https://github.com/IamTheFij/docker-pre-commit
+    rev: v3.0.1
+    hooks:
+      - id: docker-compose-check
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.29.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.9.1
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+        additional_dependencies: [cz-conventional-gitmoji]
+
+  - repo: https://github.com/ljnsn/cz-conventional-gitmoji
+    rev: v0.7.0
+    hooks:
+      - id: conventional-gitmoji
+        stages: [commit-msg]

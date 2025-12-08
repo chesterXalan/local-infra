@@ -1,0 +1,21 @@
+[project]
+name = "local-infra"
+version = "0.1.0"
+description = "Local development infrastructure with Docker Compose"
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "commitizen>=4.9.1",
+    "cz-conventional-gitmoji>=0.7.0",
+]
+
+## cz
+# <https://commitizen-tools.github.io/commitizen/config/>
+[tool.commitizen]
+name = "cz_gitmoji"
+version_provider = "uv"
+update_changelog_on_bump = true
+changelog_incremental = true
