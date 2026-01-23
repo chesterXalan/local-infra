@@ -5,17 +5,19 @@
 ## 服務
 
 | 服務 | Port | 說明 |
-|------|------|------|
+| ------- | ---- | ---- |
 | PostgreSQL | 5432 | 關聯式資料庫 |
 | Redis | 6379 | 快取 / 訊息佇列 |
 | MinIO | 9000 (API) / 9001 (Console) | S3 相容物件儲存 |
-| Ollama | 11434 | 本地 LLM 推論 |
+| Ollama | 11434 | 本地與雲端 LLM 推論 |
+| Temporal | 7233 | 分散式工作流引擎 |
+| Temporal UI | 7234 | Temporal 管理介面 |
 
 ## 快速開始
 
 ```bash
 # 複製環境變數檔案
-cp example.env .env
+cp .env.example .env
 
 # 安裝 pre-commit hooks
 make install
@@ -58,4 +60,10 @@ http://localhost:9001
 
 # Ollama API
 curl http://localhost:11434/api/tags
+
+# Temporal UI
+http://localhost:7234
+
+# Temporal CLI
+temporal workflow list
 ```

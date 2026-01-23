@@ -61,12 +61,18 @@ logs-service:
 	docker compose logs -f $(SERVICE)
 
 # ==================== Ollama ====================
-# 拉取常用模型
 ollama-pull:
-	docker exec -it local-ollama ollama pull $(MODEL)
+	docker compose exec ollama ollama pull $(MODEL)
 
 ollama-list:
-	docker exec -it local-ollama ollama list
+	docker compose exec ollama ollama list
+
+# ==================== Temporal ====================
+temporal-ns:
+	docker compose exec temporal temporal operator namespace list
+
+temporal-wf:
+	docker compose exec temporal temporal workflow list
 
 # ==================== Help ====================
 help:
@@ -89,3 +95,7 @@ help:
 	@echo "$(BOLD)Ollama:$(NC)"
 	@echo "  ollama-pull    - Pull a model (MODEL=xxx)"
 	@echo "  ollama-list    - List installed models"
+	@echo ""
+	@echo "$(BOLD)Temporal:$(NC)"
+	@echo "  temporal-ns    - List namespaces"
+	@echo "  temporal-wf    - List workflows"
