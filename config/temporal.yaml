@@ -1,0 +1,14 @@
+# Temporal Dynamic Configuration
+# https://docs.temporal.io/references/dynamic-configuration
+# 需要 Server >= 1.28.0
+
+# Task Queue 功能
+# https://docs.temporal.io/task-queue#priority
+matching.useNewMatcher:
+  - value: true
+
+# Frontend 功能
+frontend.workerHeartbeatsEnabled:
+  - value: true
+frontend.listWorkersEnabled:
+  - value: true

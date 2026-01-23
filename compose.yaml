@@ -1,7 +1,23 @@
+x-default: &default
+  restart: unless-stopped
+  init: true
+  tty: true
+  extra_hosts:
+    - host.docker.internal:host-gateway
+
+x-gpu: &gpu
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            device_ids: ['0']
+            capabilities: [gpu, compute]
+
 services:
   postgres:
+    <<: *default
     image: postgres:17.7-alpine3.22
-    restart: unless-stopped
     ports:
       - ${POSTGRES_PORT:-5432}:5432
     environment:
@@ -17,8 +33,8 @@ services:
       retries: 5
 
   redis:
+    <<: *default
     image: redis:8.4.0-alpine3.22
-    restart: unless-stopped
     ports:
       - ${REDIS_PORT:-6379}:6379
     command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
@@ -31,8 +47,8 @@ services:
       retries: 5
 
   minio:
-    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
-    restart: unless-stopped
+    <<: *default
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
     ports:
       - ${MINIO_API_PORT:-9000}:9000
       - ${MINIO_CONSOLE_PORT:-9001}:9001
@@ -49,8 +65,8 @@ services:
       retries: 5
 
   ollama:
-    image: ollama/ollama:0.13.5
-    restart: unless-stopped
+    <<: [*default, *gpu]
+    image: ollama/ollama:0.14.2
     ports:
       - ${OLLAMA_PORT:-11434}:11434
     environment:
@@ -61,13 +77,43 @@ services:
       OLLAMA_FLASH_ATTENTION: ${OLLAMA_FLASH_ATTENTION}
     volumes:
       - ollama:/root/.ollama
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ['0']
-              capabilities: [gpu, compute]
+
+  temporal:
+    <<: *default
+    image: temporalio/auto-setup:1.29.1
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - ${TEMPORAL_PORT:-7233}:7233
+    environment:
+      DB: postgres12
+      DB_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PWD: ${POSTGRES_PASSWORD}
+      POSTGRES_SEEDS: postgres
+      TEMPORAL_ADDRESS: temporal:7233
+      DEFAULT_NAMESPACE_RETENTION: ${TEMPORAL_RETENTION:-360h}
+    volumes:
+      - ./config/temporal.yaml:/etc/temporal/config/dynamicconfig/docker.yaml:ro
+    healthcheck:
+      test: [CMD, temporal, operator, namespace, describe, default]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  temporal-ui:
+    <<: *default
+    image: temporalio/ui:2.44.0
+    depends_on:
+      temporal:
+        condition: service_healthy
+    ports:
+      - ${TEMPORAL_UI_PORT:-7234}:8080
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CORS_ORIGINS: http://localhost:3000
 
 volumes:
   postgres:
