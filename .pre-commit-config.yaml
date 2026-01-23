@@ -25,7 +25,7 @@ repos:
       - id: check-toml
 
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: v2.15.0
+    rev: v2.16.0
     hooks:
       - id: pretty-format-yaml
         args:
@@ -44,7 +44,7 @@ repos:
       - id: gitleaks
 
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.11.1
+    rev: v4.12.1
     hooks:
       - id: commitizen
         stages: [commit-msg]

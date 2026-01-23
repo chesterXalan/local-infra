@@ -8,7 +8,7 @@ dependencies = []
 [dependency-groups]
 dev = [
     "pre-commit>=4.5.1",
-    "commitizen>=4.11.0",
+    "commitizen>=4.12.1",
     "cz-conventional-gitmoji>=0.7.0",
 ]
 
