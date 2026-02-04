@@ -2,8 +2,6 @@ x-default: &default
   restart: unless-stopped
   init: true
   tty: true
-  extra_hosts:
-    - host.docker.internal:host-gateway
 
 x-gpu: &gpu
   deploy:
@@ -92,7 +90,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PWD: ${POSTGRES_PASSWORD}
       POSTGRES_SEEDS: postgres
-      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_ADDRESS: passthrough:///temporal:7233
       DEFAULT_NAMESPACE_RETENTION: ${TEMPORAL_RETENTION:-360h}
     volumes:
       - ./config/temporal.yaml:/etc/temporal/config/dynamicconfig/docker.yaml:ro
