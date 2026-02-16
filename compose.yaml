@@ -163,6 +163,17 @@ services:
       timeout: 20s
       retries: 3
 
+  attu:
+    <<: *default
+    image: zilliz/attu:v2.6
+    depends_on:
+      milvus:
+        condition: service_healthy
+    ports:
+      - ${ATTU_PORT:-8088}:3000
+    environment:
+      MILVUS_URL: milvus:19530
+
   meilisearch:
     <<: *default
     image: getmeili/meilisearch:v1.12

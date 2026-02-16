@@ -13,6 +13,7 @@
 | Temporal    | 7233                        | 分散式工作流引擎 |
 | Temporal UI | 7234                        | Temporal 管理介面|
 | Milvus      | 19530 (gRPC) / 9095 (Health)| 向量資料庫       |
+| Attu        | 8088                        | Milvus 管理介面  |
 | Meilisearch | 7700                        | 全文搜尋引擎     |
 
 ## 快速開始
@@ -74,6 +75,12 @@ temporal workflow list
 from pymilvus import connections
 connections.connect(host="localhost", port="19530")
 
+# Attu (Milvus UI)
+http://localhost:8088
+
 # Meilisearch
 curl http://localhost:7700/health
+
+# Meilisearch UI
+http://localhost:7700
 ```
