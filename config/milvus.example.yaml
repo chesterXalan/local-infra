@@ -1,0 +1,7 @@
+minio:
+  bucketName: milvus
+  rootPath: files
+  useSSL: false
+  useIAM: false
+  accessKeyID: minioadmin
+  secretAccessKey: password

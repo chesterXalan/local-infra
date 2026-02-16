@@ -3,6 +3,9 @@
 .env.local
 .env.*.local
 
+# Config with secrets
+config/milvus.yaml
+
 # Logs
 *.log
 logs/
