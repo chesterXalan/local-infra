@@ -9,7 +9,7 @@
 | PostgreSQL  | 17.7       | 5432                         | 關聯式資料庫       |
 | Redis       | 8.4.0      | 6379                         | 快取 / 訊息佇列    |
 | MinIO       | 2025-04-22 | 9000 (API) / 9001 (Console)  | S3 相容物件儲存    |
-| Ollama      | 0.15.2     | 11434                        | 本地 LLM 推論      |
+| Ollama      | 0.16.2     | 11434                        | 本地 LLM 推論      |
 | Temporal    | 1.29.1     | 7233                         | 分散式工作流引擎   |
 | Temporal UI | 2.44.0     | 7234                         | Temporal 管理介面  |
 | etcd        | 3.5.25     | -                            | Milvus 分散式協調  |

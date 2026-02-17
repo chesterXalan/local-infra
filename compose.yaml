@@ -64,7 +64,7 @@ services:
 
   ollama:
     <<: [*default, *gpu]
-    image: ollama/ollama:0.15.2
+    image: ollama/ollama:0.16.2
     ports:
       - ${OLLAMA_PORT:-11434}:11434
     environment:
@@ -122,13 +122,15 @@ services:
     <<: *default
     image: quay.io/coreos/etcd:v3.5.25
     environment:
+      ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:2379
+      ETCD_ADVERTISE_CLIENT_URLS: http://etcd:2379
+      ETCD_DATA_DIR: /etcd
       ETCD_AUTO_COMPACTION_MODE: revision
       ETCD_AUTO_COMPACTION_RETENTION: 100000
       ETCD_QUOTA_BACKEND_BYTES: 4294967296
       ETCD_SNAPSHOT_COUNT: 50000
     volumes:
       - etcd:/etcd
-    command: etcd -advertise-client-urls=http://etcd:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
     healthcheck:
       test: [CMD, etcdctl, endpoint, health]
       interval: 30s
