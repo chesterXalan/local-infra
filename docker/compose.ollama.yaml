@@ -1,0 +1,36 @@
+x-default: &default
+  restart: unless-stopped
+  init: true
+  tty: true
+
+x-gpu: &gpu
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            device_ids: ['0']
+            capabilities: [gpu, compute]
+
+services:
+  ollama:
+    <<: [*default, *gpu]
+    image: ollama/ollama:0.16.2
+    ports:
+      - ${OLLAMA_PORT:-11434}:11434
+    environment:
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE}
+      OLLAMA_MAX_LOADED_MODELS: ${OLLAMA_MAX_LOADED_MODELS}
+      OLLAMA_NUM_PARALLEL: ${OLLAMA_NUM_PARALLEL}
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH}
+      OLLAMA_FLASH_ATTENTION: ${OLLAMA_FLASH_ATTENTION}
+    volumes:
+      - ollama:/root/.ollama
+    healthcheck:
+      test: [CMD, ollama, list]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  ollama:

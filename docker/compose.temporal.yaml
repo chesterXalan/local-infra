@@ -1,0 +1,42 @@
+x-default: &default
+  restart: unless-stopped
+  init: true
+  tty: true
+
+services:
+  temporal:
+    <<: *default
+    image: temporalio/auto-setup:1.29.1
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - ${TEMPORAL_PORT:-7233}:7233
+    environment:
+      DB: postgres12
+      DB_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PWD: ${POSTGRES_PASSWORD}
+      POSTGRES_SEEDS: postgres
+      TEMPORAL_ADDRESS: passthrough:///temporal:7233
+      DEFAULT_NAMESPACE_RETENTION: ${TEMPORAL_RETENTION:-360h}
+    volumes:
+      - ./config/temporal.yaml:/etc/temporal/config/dynamicconfig/docker.yaml:ro
+    healthcheck:
+      test: [CMD, temporal, operator, namespace, describe, default]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  temporal-ui:
+    <<: *default
+    image: temporalio/ui:2.44.0
+    depends_on:
+      temporal:
+        condition: service_healthy
+    ports:
+      - ${TEMPORAL_UI_PORT:-7234}:8080
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CORS_ORIGINS: http://localhost:3000

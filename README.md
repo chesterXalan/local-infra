@@ -4,18 +4,18 @@
 
 ## 服務
 
-| 服務        | 版本       | Port                         | 說明               |
-| ----------- | ---------- | ---------------------------- | ------------------ |
-| PostgreSQL  | 17.7       | 5432                         | 關聯式資料庫       |
-| Redis       | 8.4.0      | 6379                         | 快取 / 訊息佇列    |
-| MinIO       | 2025-04-22 | 9000 (API) / 9001 (Console)  | S3 相容物件儲存    |
-| Ollama      | 0.16.2     | 11434                        | 本地 LLM 推論      |
-| Temporal    | 1.29.1     | 7233                         | 分散式工作流引擎   |
-| Temporal UI | 2.44.0     | 7234                         | Temporal 管理介面  |
-| etcd        | 3.5.25     | -                            | Milvus 分散式協調  |
-| Milvus      | 2.6.11     | 19530 (gRPC) / 9095 (Health) | 向量資料庫         |
-| Attu        | 2.6        | 8088                         | Milvus 管理介面    |
-| Meilisearch | 1.12       | 7700                         | 全文搜尋引擎       |
+| 服務        | 版本       | Port                         | 說明              | Compose 檔案    |
+| ----------- | ---------- | ---------------------------- | ----------------- | --------------- |
+| PostgreSQL  | 17.7       | 5432                         | 關聯式資料庫      | `datastore`     |
+| Redis       | 8.4.0      | 6379                         | 快取 / 訊息佇列   | `datastore`     |
+| MinIO       | 2025-04-22 | 9000 (API) / 9001 (Console)  | S3 相容物件儲存   | `datastore`     |
+| Ollama      | 0.16.2     | 11434                        | 本地 LLM 推論     | `ollama`        |
+| Temporal    | 1.29.1     | 7233                         | 分散式工作流引擎  | `temporal`      |
+| Temporal UI | 2.44.0     | 7234                         | Temporal 管理介面 | `temporal`      |
+| etcd        | 3.5.25     | -                            | Milvus 分散式協調 | `milvus`        |
+| Milvus      | 2.6.11     | 19530 (gRPC) / 9095 (Health) | 向量資料庫        | `milvus`        |
+| Attu        | 2.6        | 8088                         | Milvus 管理介面   | `milvus`        |
+| Meilisearch | 1.12       | 7700                         | 全文搜尋引擎      | `meilisearch`   |
 
 ## 快速開始
 

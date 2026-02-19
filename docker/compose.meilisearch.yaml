@@ -1,0 +1,25 @@
+x-default: &default
+  restart: unless-stopped
+  init: true
+  tty: true
+
+services:
+  meilisearch:
+    <<: *default
+    image: getmeili/meilisearch:v1.12
+    ports:
+      - ${MEILISEARCH_PORT:-7700}:7700
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_ENV: ${MEILI_ENV:-development}
+      MEILI_NO_ANALYTICS: true
+    volumes:
+      - meilisearch:/meili_data
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost:7700/health]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  meilisearch:
