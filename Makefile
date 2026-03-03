@@ -8,23 +8,17 @@ NC = \033[0m       # 無色
 # ==================== Pre-commit ====================
 # 安裝 pre-commit hooks
 install:
-	uv sync
-	uv run pre-commit install
+	pre-commit install
 	@echo "$(GREEN)$(BOLD)✅ Pre-commit hooks installed!$(NC)"
 
 # 更新 pre-commit hooks
 update:
-	uv run pre-commit autoupdate
+	pre-commit autoupdate
 	@echo "$(GREEN)$(BOLD)✅ Pre-commit hooks updated!$(NC)"
 
 # 執行所有檢查
 check:
-	uv run pre-commit run --all-files
-
-# push commit without pre-push but run pre-commit
-push:
-	uv run pre-commit run --all-files
-	git push --no-verify
+	pre-commit run --all-files
 
 # ==================== Docker Compose ====================
 up:
@@ -80,7 +74,6 @@ help:
 	@echo "  install        - Install pre-commit hooks"
 	@echo "  update         - Update pre-commit hooks"
 	@echo "  check          - Run all pre-commit checks"
-	@echo "  push           - Run pre-commit and push to remote"
 	@echo ""
 	@echo "$(BOLD)Docker Compose:$(NC)"
 	@echo "  up             - Start all services"
