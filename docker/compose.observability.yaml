@@ -1,0 +1,35 @@
+x-default: &default
+  restart: unless-stopped
+  init: true
+  tty: true
+
+services:
+  otel-lgtm:
+    <<: *default
+    image: grafana/otel-lgtm:0.19.1
+    ports:
+      - ${GRAFANA_PORT:-4000}:3000 # Grafana UI
+      - ${OTLP_GRPC_PORT:-4317}:4317 # OTLP gRPC
+      - ${OTLP_HTTP_PORT:-4318}:4318 # OTLP HTTP
+    expose:
+      - 3000 # Grafana UI
+      - 4317 # OTLP gRPC
+      - 4318 # OTLP HTTP
+      - 3100 # Loki (logs query)
+      - 3200 # Tempo (traces query)
+      - 4040 # Pyroscope (profiles query)
+      - 9090 # Prometheus (metrics query)
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
+    volumes:
+      - otel-lgtm:/data
+    healthcheck:
+      test: [CMD, test, -f, /tmp/ready]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  otel-lgtm:

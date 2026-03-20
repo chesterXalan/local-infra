@@ -16,6 +16,7 @@
 | Milvus      | 2.6.11     | 19530 (gRPC) / 9095 (Health) | 向量資料庫        | `milvus`        |
 | Attu        | 2.6        | 8088                         | Milvus 管理介面   | `milvus`        |
 | Meilisearch | 1.12       | 7700                         | 全文搜尋引擎      | `meilisearch`   |
+| OTEL-LGTM   | 0.19.1     | 4000 (Grafana) / 4317 (gRPC) / 4318 (HTTP) | 遙測觀測平台 | `observability` |
 
 ## 快速開始
 
@@ -84,4 +85,13 @@ curl http://localhost:7700/health
 
 # Meilisearch UI
 http://localhost:7700
+
+# Grafana (OTEL-LGTM)
+http://localhost:4000
+
+# OTLP Endpoint (gRPC)
+# OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+
+# OTLP Endpoint (HTTP)
+# OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 ```

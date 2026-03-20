@@ -13,6 +13,8 @@ include:
     path: docker/compose.milvus.yaml
   - <<: *include
     path: docker/compose.meilisearch.yaml
+  - <<: *include
+    path: docker/compose.observability.yaml
 
 networks:
   default:
