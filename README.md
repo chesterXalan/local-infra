@@ -6,6 +6,8 @@
 
 | 服務        | 版本       | Port                         | 說明              | Compose 檔案    |
 | ----------- | ---------- | ---------------------------- | ----------------- | --------------- |
+| Nginx       | alpine     | 80 / 443                     | 反向代理 + SSL   | `nginx`         |
+| Certbot     | dns-cf     | -                            | Let's Encrypt 憑證 | `nginx`       |
 | PostgreSQL  | 17.7       | 5432                         | 關聯式資料庫      | `datastore`     |
 | Redis       | 8.4.0      | 6379                         | 快取 / 訊息佇列   | `datastore`     |
 | MinIO       | 2025-04-22 | 9000 (API) / 9001 (Console)  | S3 相容物件儲存   | `datastore`     |
@@ -16,8 +18,6 @@
 | Milvus      | 2.6.11     | 19530 (gRPC) / 9095 (Health) | 向量資料庫        | `milvus`        |
 | Attu        | 2.6        | 8088                         | Milvus 管理介面   | `milvus`        |
 | Meilisearch | 1.12       | 7700                         | 全文搜尋引擎      | `meilisearch`   |
-| Nginx       | alpine     | 80 / 443                     | 反向代理 + SSL   | `nginx`         |
-| Certbot     | dns-cf     | -                            | Let's Encrypt 憑證 | `nginx`       |
 | OTEL-LGTM   | 0.19.1     | 4000 (Grafana) / 4317 (gRPC) / 4318 (HTTP) | 遙測觀測平台 | `observability` |
 
 ## 快速開始
@@ -51,15 +51,15 @@ make logs            # 追蹤 logs
 make up-service SERVICE=postgres
 make logs-service SERVICE=redis
 
-# Ollama 模型管理
-make ollama-pull MODEL=gpt-oss:20b
-make ollama-list
-
 # Nginx / 憑證管理
 make cert-issue DOMAIN=example.com EMAIL=admin@example.com  # 簽發 wildcard 憑證
 make cert-renew                      # 手動續簽
 make nginx-reload                    # 測試並重載設定
 ./scripts/auto-renew.sh on           # 開啟自動續簽 cron
+
+# Ollama 模型管理
+make ollama-pull MODEL=gpt-oss:20b
+make ollama-list
 ```
 
 ## 連線資訊
