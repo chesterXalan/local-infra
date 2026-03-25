@@ -26,7 +26,7 @@
 # 複製環境變數與設定檔
 cp .env.example .env
 cp config/milvus.example.yaml config/milvus.yaml
-cp config/nginx/snippets/ssl.example.conf config/nginx/snippets/ssl.conf  # 修改 DOMAIN
+cp config/nginx/examples/ssl.conf config/nginx/snippets/ssl.conf           # 修改 DOMAIN
 cp certbot/cloudflare.example.ini certbot/cloudflare.ini                  # 填入 API Token
 
 # 安裝 pre-commit hooks

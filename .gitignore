@@ -3,11 +3,17 @@
 .env.local
 .env.*.local
 
-# Config with secrets
-config/milvus.yaml
+# Nginx
 config/nginx/snippets/ssl.conf
+config/nginx/conf.d/*
+!config/nginx/conf.d/.gitkeep
+
+# Certbot
 certbot/cloudflare.ini
 certbot/conf/
+
+# Milvus
+config/milvus.yaml
 
 # Logs
 *.log
