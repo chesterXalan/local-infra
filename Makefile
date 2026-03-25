@@ -54,6 +54,17 @@ restart-service:
 logs-service:
 	docker compose logs -f $(SERVICE)
 
+# ==================== Nginx / Cert ====================
+nginx-reload:
+	docker compose exec nginx nginx -t && docker compose exec nginx nginx -s reload
+	@echo "$(GREEN)$(BOLD)✅ Nginx reloaded!$(NC)"
+
+cert-issue:
+	./scripts/cert-issue.sh $(DOMAIN) $(EMAIL)
+
+cert-renew:
+	./scripts/cert-renew.sh
+
 # ==================== Ollama ====================
 ollama-pull:
 	docker compose exec ollama ollama pull $(MODEL)
@@ -84,6 +95,11 @@ help:
 	@echo "  up-service     - Start a single service (SERVICE=xxx)"
 	@echo "  restart-service- Restart a single service (SERVICE=xxx)"
 	@echo "  logs-service   - Follow logs of a single service (SERVICE=xxx)"
+	@echo ""
+	@echo "$(BOLD)Nginx / Cert:$(NC)"
+	@echo "  nginx-reload   - Test and reload nginx config"
+	@echo "  cert-issue     - Issue wildcard cert (DOMAIN=xxx EMAIL=xxx)"
+	@echo "  cert-renew     - Renew certificates"
 	@echo ""
 	@echo "$(BOLD)Ollama:$(NC)"
 	@echo "  ollama-pull    - Pull a model (MODEL=xxx)"

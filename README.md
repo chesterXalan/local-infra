@@ -16,6 +16,8 @@
 | Milvus      | 2.6.11     | 19530 (gRPC) / 9095 (Health) | 向量資料庫        | `milvus`        |
 | Attu        | 2.6        | 8088                         | Milvus 管理介面   | `milvus`        |
 | Meilisearch | 1.12       | 7700                         | 全文搜尋引擎      | `meilisearch`   |
+| Nginx       | alpine     | 80 / 443                     | 反向代理 + SSL   | `nginx`         |
+| Certbot     | dns-cf     | -                            | Let's Encrypt 憑證 | `nginx`       |
 | OTEL-LGTM   | 0.19.1     | 4000 (Grafana) / 4317 (gRPC) / 4318 (HTTP) | 遙測觀測平台 | `observability` |
 
 ## 快速開始
@@ -24,6 +26,8 @@
 # 複製環境變數與設定檔
 cp .env.example .env
 cp config/milvus.example.yaml config/milvus.yaml
+cp config/nginx/snippets/ssl.example.conf config/nginx/snippets/ssl.conf  # 修改 DOMAIN
+cp certbot/cloudflare.example.ini certbot/cloudflare.ini                  # 填入 API Token
 
 # 安裝 pre-commit hooks
 make install
@@ -50,6 +54,12 @@ make logs-service SERVICE=redis
 # Ollama 模型管理
 make ollama-pull MODEL=gpt-oss:20b
 make ollama-list
+
+# Nginx / 憑證管理
+make cert-issue DOMAIN=example.com EMAIL=admin@example.com  # 簽發 wildcard 憑證
+make cert-renew                      # 手動續簽
+make nginx-reload                    # 測試並重載設定
+./scripts/auto-renew.sh on           # 開啟自動續簽 cron
 ```
 
 ## 連線資訊
