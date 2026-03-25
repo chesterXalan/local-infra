@@ -5,6 +5,9 @@
 
 # Config with secrets
 config/milvus.yaml
+config/nginx/snippets/ssl.conf
+certbot/cloudflare.ini
+certbot/conf/
 
 # Logs
 *.log

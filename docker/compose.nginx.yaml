@@ -1,0 +1,32 @@
+x-default: &default
+  restart: unless-stopped
+  init: true
+  tty: true
+
+services:
+  nginx:
+    <<: *default
+    image: nginx:alpine
+    ports:
+      - 80:80
+      - 443:443
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/nginx/snippets:/etc/nginx/snippets:ro
+      - ./config/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+    healthcheck:
+      test: [CMD, nginx, -t]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  certbot:
+    image: certbot/dns-cloudflare
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/cloudflare.ini:/etc/cloudflare.ini:ro
+    profiles:
+      - cert

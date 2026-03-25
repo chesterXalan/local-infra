@@ -4,6 +4,8 @@ x-include: &include
 
 include:
   - <<: *include
+    path: docker/compose.nginx.yaml
+  - <<: *include
     path: docker/compose.datastore.yaml
   - <<: *include
     path: docker/compose.ollama.yaml
