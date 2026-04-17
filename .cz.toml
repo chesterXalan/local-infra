@@ -1,0 +1,3 @@
+# <https://commitizen-tools.github.io/commitizen/config/>
+[tool.commitizen]
+name = "cz_gitmoji"
