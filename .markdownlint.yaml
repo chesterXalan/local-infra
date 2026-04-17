@@ -1,0 +1,7 @@
+# https://github.com/DavidAnson/markdownlint/blob/v0.40.0/schema/.markdownlint.yaml
+# https://github.com/DavidAnson/markdownlint/blob/v0.40.0/doc/Rules.md
+
+MD013: false # Line length
+MD024: false # Multiple headings with the same content
+MD026: false # Trailing punctuation in heading
+MD060: false # Table column style
