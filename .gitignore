@@ -6,7 +6,7 @@
 # Nginx
 config/nginx/snippets/ssl.conf
 config/nginx/conf.d/*
-!config/nginx/conf.d/.gitkeep
+!config/nginx/conf.d/00-default.conf
 
 # Certbot
 certbot/cloudflare.ini
